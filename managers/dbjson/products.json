@@ -1,0 +1,33 @@
+[
+	{
+		"id": 1,
+		"title": "justina iturraspe",
+		"description": "frontend developer",
+		"code": "001",
+		"price": 500,
+		"stock": 5,
+		"category": "developer",
+		"status": true,
+		"thumbnails": []
+	},
+	{
+		"id": 2
+	},
+	{
+		"id": 3
+	},
+	{
+		"id": 4
+	},
+	{
+		"title": "jean azul",
+		"description": "jean oversize gastado azul claro",
+		"code": "002",
+		"price": 1000,
+		"stock": 7,
+		"category": "trausers",
+		"status": true,
+		"thumbnails": [],
+		"id": 5
+	}
+]
