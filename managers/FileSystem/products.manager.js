@@ -15,6 +15,9 @@ class ProductsManagerFs {
         try {
             const productsJson = await fs.readFile(path, 'utf-8')
             const productsJs = JSON.parse(productsJson);
+            if (!Array.isArray(productsJs)) {
+                throw new Error('Products data is not an array');
+            }
             return productsJs
         } catch (error) {
             return []
@@ -75,10 +78,22 @@ class ProductsManagerFs {
     }
 
     deleteProduct = async (id) => {
-        let product = this.getProduct(id);
+        try {
+            let products = await this.readProducts();
+            const newProducts = products.filter(p => {
+                return p.id != id
+            });
         
-        products.pull(product)
-        //no recuerdo el metodo
+            if (products.length === newProducts.length) {
+                throw new Error('Product not found');
+            }
+            
+            await fs.writeFile(this.path, JSON.stringify(newProducts, null, '\t'));
+            return { message: 'Product deleted successfully' };
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 }
 

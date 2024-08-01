@@ -3,7 +3,7 @@ import ProductsManagerFs from '../managers/FileSystem/products.manager.js';
 
 const router = Router();
 
-const { getProducts, createProduct, getProduct, updateProduct } = new ProductsManagerFs();
+const { getProducts, createProduct, getProduct, updateProduct, deleteProduct } = new ProductsManagerFs();
 
 router.get('/', async (req, res) => {
     try {
@@ -33,7 +33,6 @@ router.get('/:pid', async (req, res) => {
         res.send({ status: 'success', product: product });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ status: 'error', message: 'Server error' });
     }
 });
 
@@ -45,7 +44,16 @@ router.put('/:pid', async (req, res) => {
         res.send({ status: 'success', product: updatedProduct });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ status: 'error', message: 'Server error' });
+    }
+});
+
+router.delete('/:pid', async (req, res) => {
+    const { pid } = req.params;
+    try {
+        const response = await deleteProduct(pid);
+        res.send({ status: 'success', message: response.message });
+    } catch (error) {
+        console.log(error);
     }
 });
 
