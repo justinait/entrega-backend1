@@ -31,11 +31,10 @@ class ProductsManagerFs {
         })
         return product
     }
-    
+
     createProduct = async (newProduct) => {
         try {
             const products = await this.readProducts()
-            //xq read y no get?
             if(products.length === 0){
                 newProduct.id = 1;
             } else {
@@ -51,11 +50,35 @@ class ProductsManagerFs {
             throw error
         }
     }
-    updateProduct = async () => {
-        
+
+    updateProduct = async (id, productUpdated) => {
+        try {
+            const products = await this.readProducts();
+            const productIndex = products.findIndex(p => p.id == id);
+
+            if (productIndex === -1) {
+                throw new Error('Product not found');
+            }
+
+            const existingProduct = products[productIndex];
+            const updatedProduct = { ...existingProduct, ...productUpdated, id: existingProduct.id };
+
+            products[productIndex] = updatedProduct;
+
+            await fs.writeFile(this.path, JSON.stringify(products, null, '\t'));
+            return updatedProduct;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
     }
-    deleteProduct = async () => {
+
+    deleteProduct = async (id) => {
+        let product = this.getProduct(id);
         
+        products.pull(product)
+        //no recuerdo el metodo
     }
 }
 

@@ -17,7 +17,15 @@
 		"id": 3
 	},
 	{
-		"id": 4
+		"id": 4,
+		"title": "jean blanco roturas",
+		"description": "jean oversize gastado color blanco con roturas en las rodillas.",
+		"code": "004",
+		"price": 800,
+		"stock": 2,
+		"category": "trausers",
+		"status": true,
+		"thumbnails": []
 	},
 	{
 		"title": "jean azul",
