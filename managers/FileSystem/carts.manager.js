@@ -52,11 +52,25 @@ class CartsManagerFs {
             throw error
         }
     }
-    addProductToCart = async (product) => {
+    addProductToCart = async (cid, pid) => {
         try {
-            //agarras el product
+            //5/product/1
+            //agarras el cart
             //le cargas su product.id al arreglo del cart cid
             //product.quantity = 1
+            
+            //ya tenes el carrito creado con el numero de carrito y
+            //un array vacio para los productos, q va a tener (un objeto con 2 valores)x
+
+            const carts = await this.readCarts()
+            const cartIndex = carts.findIndex(e => e.id == cid);
+            
+            carts[cartIndex].products = {
+                "product": pid,
+                "quantity": 1
+            }
+            await fs.writeFile(this.path, JSON.stringify(carts, null, '\t'))
+            return carts[cartIndex]
 
         } catch (error) {
             console.log(error);

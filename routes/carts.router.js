@@ -29,8 +29,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
     const {cid} = req.params
     const {pid} = req.params
     try {
-        const { body } = req;
-        const response = await addProductToCart(body);
+        const response = await addProductToCart(cid, pid);
         res.send({ status: 'success', data: response });
     } catch (error) {
         console.log(error);
