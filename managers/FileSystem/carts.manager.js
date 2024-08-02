@@ -64,10 +64,18 @@ class CartsManagerFs {
 
             const carts = await this.readCarts()
             const cartIndex = carts.findIndex(e => e.id == cid);
+            if (cartIndex === -1) throw new Error('Cart not found');
             
-            carts[cartIndex].products = {
-                "product": pid,
-                "quantity": 1
+            let selectedCart = carts[cartIndex].products;
+            
+            const productCartIndex = selectedCart.findIndex(e => e.product == pid)
+            if(productCartIndex === -1){
+                selectedCart = {
+                    "product": pid,
+                    "quantity": 1
+                }
+            } else {        //si ya existe ese producto dentro del carrito de este user
+                selectedCart[productCartIndex].quantity += 1;
             }
             await fs.writeFile(this.path, JSON.stringify(carts, null, '\t'))
             return carts[cartIndex]
