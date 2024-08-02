@@ -3,7 +3,6 @@ import { __dirname } from '../dirname.js';
 import { join } from 'path';
 
 const path = join(__dirname, 'dbjson', 'products.json');
-// const path = '/public/dbjson/products.json'
 
 class ProductsManagerFs {
     constructor(){
