@@ -33,7 +33,7 @@ class CartsManagerFs {
         })
         return cart
     }
-    createCart = async (productsArray) => {
+    createCart = async () => {
         try {
             let newCart = {}
             const carts = await this.readCarts()
@@ -42,7 +42,26 @@ class CartsManagerFs {
             } else {
                 newCart.id = carts[carts.length-1].id+1;
             }
-            newCart.products = productsArray;
+            newCart.products = [];
+            carts.push(newCart)
+            await fs.writeFile(this.path, JSON.stringify(carts, null, '\t'))
+            return newCart
+
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
+    }
+    addProductToCart = async () => {
+        try {
+            let newCart = {}
+            const carts = await this.readCarts()
+            if(carts.length === 0){
+                newCart.id = 1;
+            } else {
+                newCart.id = carts[carts.length-1].id+1;
+            }
+            newCart.products = [];
             carts.push(newCart)
             await fs.writeFile(this.path, JSON.stringify(carts, null, '\t'))
             return newCart
