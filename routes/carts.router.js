@@ -25,10 +25,19 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:pid', async (req, res) => {
-    const { pid } = req.params;
+router.get('/:cid', async (req, res) => {
+    const {cid} = req.params
     try {
-        const response = await deleteProduct(pid);
+        const cart = await getCart(cid);
+        res.send({ status: 'success', cart: cart });
+    } catch (error) {
+        console.log(error);
+    }
+});
+router.delete('/:cid', async (req, res) => {
+    const { cid } = req.params;
+    try {
+        const response = await deleteCart(cid);
         res.send({ status: 'success', message: response.message });
     } catch (error) {
         console.log(error);
