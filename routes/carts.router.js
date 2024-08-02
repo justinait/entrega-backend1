@@ -2,17 +2,8 @@ import { Router } from 'express';
 import CartsManagerFs from '../managers/FileSystem/carts.manager.js';
 
 const router = Router();
-const { addProductToCart, createCart, getCart, deleteCart } = new CartsManagerFs();
+const { addProductToCart, createCart, getCart } = new CartsManagerFs();
 
-
-router.get('/', async (req, res) => {
-    try {
-        const cartDb = await getCart();
-        res.send({ status: 'success', data: cartDb });
-    } catch (error) {
-        console.log(error);
-    }
-});
 
 router.post('/', async (req, res) => {
     try {
@@ -41,15 +32,6 @@ router.get('/:cid', async (req, res) => {
     try {
         const cart = await getCart(cid);
         res.send({ status: 'success', cart: cart });
-    } catch (error) {
-        console.log(error);
-    }
-});
-router.delete('/:cid', async (req, res) => {
-    const { cid } = req.params;
-    try {
-        const response = await deleteCart(cid);
-        res.send({ status: 'success', message: response.message });
     } catch (error) {
         console.log(error);
     }

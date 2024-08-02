@@ -1,36 +1,5 @@
 [
 	{
-		"id": 1,
-		"products": [
-			{
-				"title": "justina iturraspe",
-				"description": "frontend developer",
-				"code": "001",
-				"price": 500,
-				"stock": 5,
-				"category": "developer",
-				"status": true,
-				"thumbnails": []
-			}
-		]
-	},
-	{
-		"id": 2
-	},
-	{
-		"id": 4,
-		"products": {
-			"title": "jean blanco roturas",
-			"description": "jean oversize gastado color blanco con roturas en las rodillas.",
-			"code": "004",
-			"price": 800,
-			"stock": 2,
-			"category": "trausers",
-			"status": true,
-			"thumbnails": []
-		}
-	},
-	{
 		"id": 5,
 		"products": [
 			{
