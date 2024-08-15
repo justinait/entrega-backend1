@@ -1,7 +1,7 @@
 import express from 'express';
 import productRouter from './routes/products.router.js';
 import cartRouter from './routes/carts.router.js';
-import pruebaRouter from './src/routes/pruebas.router.js';
+import viewsRouter from './src/routes/views.router.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { engine } from 'express-handlebars';
@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
-app.use('/pruebas', pruebaRouter )
+app.use('/', viewsRouter )
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 
