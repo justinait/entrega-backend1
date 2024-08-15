@@ -8,8 +8,19 @@ router.get('/', async (req, res)=> {
     try {
         const productsDb = await getProducts();
         res.render('home.handlebars', {
-            name: 'Justi',
             title: 'Home - Tienda',
+            products: productsDb
+        })
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/realtimeproducts', async (req, res)=> {
+    try {
+        const productsDb = await getProducts();
+        res.render('realTimeProducts.handlebars', {
+            title: 'Real Time Products',
             products: productsDb
         })
     } catch (error) {
