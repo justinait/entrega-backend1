@@ -19,9 +19,9 @@ router.get('/', async (req, res)=> {
 router.get('/realtimeproducts', async (req, res)=> {
     try {
         const productsDb = await getProducts();
-        res.render('realTimeProducts.handlebars', {
+        res.render('realTimeProducts', {
             title: 'Real Time Products',
-            products: productsDb
+            // products: productsDb
         })
     } catch (error) {
         console.log(error);
