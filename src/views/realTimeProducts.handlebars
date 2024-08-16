@@ -1,3 +1,21 @@
 <h2>Socket</h2>
+<script src="/socket.io/socket.io.js"></script>
+{{!-- <script src="/src/public/utils/index.js" type="module"></script> --}}
+ <script>
+    console.log('sockeeet')
+    const socket = io(); // Conecta al servidor de socket.io
 
-<script src="/src/utils/script.js" type="module"></script>
+    socket.emit('message', 'hola me estoy comunicando desde el cliente');
+
+    socket.on('evento_para_un_socket_individual', data => {
+        console.log(data);
+    });
+
+    socket.on('evento_para_todos_menos_para_el_socket_actual', data => {
+        console.log(data);
+    });
+
+    socket.on('mensaje_para_todos', data => {
+        console.log(data);
+    });
+</script>

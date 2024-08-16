@@ -14,14 +14,11 @@ const app = express();
 const port = 8080;
 
 app.engine('handlebars', engine())
-// app.set('views', '/src/views')
+
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'handlebars')
 
 
-// app.get('/', (req, res) => {
-//     res.send('¡Hola, mundo!');
-// });
 
 const httpServer = app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
@@ -39,4 +36,17 @@ app.use('/api/carts', cartRouter);
 app.use((error, req, res, next) => {
     console.log(error.stack);
     res.status(500).send('error de server');
+});
+
+socketServer.on('connection', (socket) => {
+
+    console.log('Nuevo cliente conectado');
+    
+    // Eventos de socket.io pueden ser manejados aquí
+    socket.on('disconnect', () => {
+    
+        console.log('Cliente desconectado');
+    
+    });
+    
 });

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import ProductsManagerFs from '../managers/FileSystem/products.manager.js';
 
 const router = Router();
-const { getProducts, getProduct, updateProduct, deleteProduct } = new ProductsManagerFs();
+const { getProducts } = new ProductsManagerFs();
 
 router.get('/', async (req, res)=> {
     try {
@@ -19,10 +19,12 @@ router.get('/', async (req, res)=> {
 router.get('/realtimeproducts', async (req, res)=> {
     try {
         const productsDb = await getProducts();
-        res.render('realTimeProducts', {
+        
+        res.render('realTimeProducts.handlebars', {
             title: 'Real Time Products',
-            // products: productsDb
+            products: productsDb
         })
+
     } catch (error) {
         console.log(error);
     }
