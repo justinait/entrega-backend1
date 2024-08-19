@@ -9,7 +9,7 @@
         <input name="price" type="text" placeholder="$ Precio del producto">
         <input name="stock" type="number" placeholder="Stock">
         <input name="code" type="text" placeholder="Code del producto">
-        <input name="category" type="text" placeholder="Category del producto">
+        <input name="category" type="text" placeholder="Categoría">
         <button>Enviar</button>
     </form>
 </section>
@@ -42,5 +42,26 @@
         })
         productListDiv.innerHTML = html
     });
+
+    let form = document.querySelector('#productForm');
+    form.addEventListener('submit', evt => {
+        evt.preventDefault();
+        const title = form.elements.title.value;
+        const description = form.elements.description.value;
+        const price = form.elements.price.value;
+        const stock = form.elements.stock.value;
+        const category = form.elements.category.value;
+        const code = form.elements.code.value;
+
+        socket.emit('addProduct', {
+            title,
+            description,
+            price,
+            stock,
+            category,
+            code
+        })
+        form.reset()
+    })
     
 </script>

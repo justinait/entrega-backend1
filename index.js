@@ -40,7 +40,7 @@ app.use((error, req, res, next) => {
     res.status(500).send('error de server');
 });
 
-chatSocket(io);
+// chatSocket(io);
 
 const ioMiddleware = (ïo) => (req, res, next) => {
     req.io = io;
@@ -52,6 +52,11 @@ const productSocket = (io) => {
         const {getProducts} = new ProductsManagerFs();
         const products = await getProducts()
         socket.emit('products', products)
+
+        socket.on('addProduct', data=> {
+            console.log(data);
+            
+        })
     })
 }
 
