@@ -1,11 +1,33 @@
 <h2>Socket</h2>
 <script src="/socket.io/socket.io.js"></script>
 {{!-- <script src="/src/public/utils/index.js" type="module"></script> --}}
+
+<div id="productList">
+
+</div>
+
 <script>
     console.log('sockeeet')
     const socket = io();
 
     socket.on('products', data => {
         console.log(data);
+        const productListDiv = document.querySelector('#productList')
+        let html = ''
+
+        data.forEach(e => {
+            html += `
+                <div class='cardProduct'>
+                    <div class='cardInfo'>
+                        <p>Nombre: ${e.title}</p>
+                        <p>Nombre: ${e.description}</p>
+                        <p>Nombre: $ ${e.price}</p>
+                        <p>Nombre: ${e.stock}</p>
+                    </div>
+                </div>
+            `
+        })
+        productListDiv.innerHTML = html
     });
+    
 </script>
