@@ -2,6 +2,19 @@
 <script src="/socket.io/socket.io.js"></script>
 {{!-- <script src="/src/public/utils/index.js" type="module"></script> --}}
 
+<section>
+    <form id="productForm">
+        <input name="title" type="text" placeholder="Nombre del producto">
+        <input name="description" type="text" placeholder="Descripción del producto">
+        <input name="price" type="text" placeholder="$ Precio del producto">
+        <input name="stock" type="number" placeholder="Stock">
+        <input name="code" type="text" placeholder="Code del producto">
+        <input name="category" type="text" placeholder="Category del producto">
+        <button>Enviar</button>
+    </form>
+</section>
+
+
 <div id="productList">
 
 </div>
@@ -20,9 +33,9 @@
                 <div class='cardProduct'>
                     <div class='cardInfo'>
                         <p>Nombre: ${e.title}</p>
-                        <p>Nombre: ${e.description}</p>
-                        <p>Nombre: $ ${e.price}</p>
-                        <p>Nombre: ${e.stock}</p>
+                        <p>Descripción: ${e.description}</p>
+                        <p>Precio: $ ${e.price}</p>
+                        <p>Stock: ${e.stock}</p>
                     </div>
                 </div>
             `
