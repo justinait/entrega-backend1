@@ -49,13 +49,13 @@ const ioMiddleware = (ïo) => (req, res, next) => {
 
 const productSocket = (io) => {
     io.on('connection', async socket => {
-        const {getProducts} = new ProductsManagerFs();
+        const {getProducts, createProduct} = new ProductsManagerFs();
         const products = await getProducts()
         socket.emit('products', products)
 
-        socket.on('addProduct', data=> {
+        socket.on('addProduct', async data=> {
             console.log(data);
-            
+            createProduct(data);
         })
     })
 }

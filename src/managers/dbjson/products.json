@@ -31,5 +31,14 @@
 		"status": true,
 		"thumbnails": [],
 		"id": 5
+	},
+	{
+		"title": "remera",
+		"description": "remera de algodon basica negra talle L",
+		"price": "500",
+		"stock": "100",
+		"category": "Tshirts",
+		"code": "011",
+		"id": 6
 	}
 ]
