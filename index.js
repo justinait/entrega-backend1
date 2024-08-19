@@ -6,6 +6,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io'
+import { chatSocket } from './src/utils/chatSocket.js';
+import ProductsManagerFs from './src/managers/FileSystem/products.manager.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +25,7 @@ app.set('view engine', 'handlebars')
 const httpServer = app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
-const socketServer = new Server(httpServer);
+const io = new Server(httpServer);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,15 +40,19 @@ app.use((error, req, res, next) => {
     res.status(500).send('error de server');
 });
 
-socketServer.on('connection', (socket) => {
+chatSocket(io);
 
-    console.log('Nuevo cliente conectado');
-    
-    // Eventos de socket.io pueden ser manejados aquí
-    socket.on('disconnect', () => {
-    
-        console.log('Cliente desconectado');
-    
-    });
-    
-});
+const ioMiddleware = (ïo) => (req, res, next) => {
+    req.io = io;
+    next()
+}
+
+const productSocket = (io) => {
+    io.on('connection', async socket => {
+        const {getProducts} = new ProductsManagerFs();
+        const products = await getProducts()
+        socket.emit('products', products)
+    })
+}
+
+productSocket(io)
