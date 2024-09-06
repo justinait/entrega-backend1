@@ -16,9 +16,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     // validaciones pero en realidad yo ya le puse required, esto serian las validaciones del front?
-    // if(!body.title ||)
-    // res.send({ status: 'success', data: result });
     const { body } = req;
+    if(!body.title ||!body.description ||!body.code ||!body.price || !body.category ||!body.stock){
+        return  res.status(400).send({status: 'error', error: 'Todos los campos son oligatorios'})
+    }
     const result = await productModel.create(body)
     res.status(200).send({data: result})
 });
@@ -34,8 +35,9 @@ router.get('/:pid', async (req, res) => {
 router.put('/:pid', async (req, res) => {
     const { pid } = req.params;
     let productUpdated = req.body;
-    //valida tmb, yo dsp lo hago xq tengo q validar de todo
-
+    if(!body.title ||!body.description ||!body.code ||!body.price || !body.category ||!body.stock){
+        return  res.status(400).send({status: 'error', error: 'Todos los campos son oligatorios'})
+    }
     const result = await productModel.updateOne({_id: pid}, productUpdated)
     res.send({status: 'success', message: 'usuario actualizado'})
     
