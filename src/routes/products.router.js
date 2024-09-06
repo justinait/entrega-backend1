@@ -26,23 +26,19 @@ router.post('/', async (req, res) => {
 
 router.get('/:pid', async (req, res) => {
     const {pid} = req.params
-    try {
-        const product = await getProduct(pid);
-        res.send({ status: 'success', product: product });
-    } catch (error) {
-        console.log(error);
-    }
+    const product = await productModel.findById(pid)
+    res.send({ status: 'success', payload: product })
+    
 });
 
 router.put('/:pid', async (req, res) => {
     const { pid } = req.params;
-    const productUpdated = req.body;
-    try {
-        const updatedProduct = await updateProduct(pid, productUpdated);
-        res.send({ status: 'success', product: updatedProduct });
-    } catch (error) {
-        console.log(error);
-    }
+    let productUpdated = req.body;
+    //valida tmb, yo dsp lo hago xq tengo q validar de todo
+
+    const result = await productModel.updateOne({_id: pid}, productUpdated)
+    res.send({status: 'success', message: 'usuario actualizado'})
+    
 });
 
 router.delete('/:pid', async (req, res) => {
