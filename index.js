@@ -8,6 +8,7 @@ import { engine } from 'express-handlebars';
 import { Server } from 'socket.io'
 import { chatSocket } from './src/utils/chatSocket.js';
 import ProductsManagerFs from './src/managers/FileSystem/products.manager.js';
+import { connectDB } from './src/managers/config/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,8 +41,9 @@ app.use((error, req, res, next) => {
     res.status(500).send('error de server');
 });
 
-// chatSocket(io);
+connectDB()
 
+// chatSocket(io);
 const ioMiddleware = (ïo) => (req, res, next) => {
     req.io = io;
     next()
