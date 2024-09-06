@@ -1,6 +1,7 @@
 import express from 'express';
 import productRouter from './src/routes/products.router.js';
 import cartRouter from './src/routes/carts.router.js';
+import userRouter from './src/routes/users.router.js';
 import viewsRouter from './src/routes/views.router.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -35,6 +36,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/', viewsRouter )
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api/users', userRouter);
 
 app.use((error, req, res, next) => {
     console.log(error.stack);

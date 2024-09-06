@@ -1,28 +1,26 @@
 import { Router } from 'express';
 import ProductsManagerFs from '../managers/FileSystem/products.manager.js';
+import { productModel } from '../managers/models/products.model.js';
 
 const router = Router();
 
 const { getProducts, createProduct, getProduct, updateProduct, deleteProduct } = new ProductsManagerFs();
 
+const products = [];
+
 router.get('/', async (req, res) => {
-    try {
-        const productsDb = await getProducts();
-        res.send({ status: 'success', data: productsDb });
-    } catch (error) {
-        console.log(error);
-    }
+    
+    const products = await productModel.find()
+    res.send({ status: 'success', payload: products })
 });
 
 router.post('/', async (req, res) => {
-    try {
-        const { body } = req;
-        console.log(body);
-        const response = await createProduct(body);
-        res.send({ status: 'success', data: response });
-    } catch (error) {
-        console.log(error);
-    }
+    // validaciones pero en realidad yo ya le puse required, esto serian las validaciones del front?
+    // if(!body.title ||)
+    // res.send({ status: 'success', data: result });
+    const { body } = req;
+    const result = await productModel.create(body)
+    res.status(200).send({data: result})
 });
 
 
