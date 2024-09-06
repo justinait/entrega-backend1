@@ -43,12 +43,10 @@ router.put('/:pid', async (req, res) => {
 
 router.delete('/:pid', async (req, res) => {
     const { pid } = req.params;
-    try {
-        const response = await deleteProduct(pid);
-        res.send({ status: 'success', message: response.message });
-    } catch (error) {
-        console.log(error);
-    }
+
+    const result = await productModel.deleteOne({_id: pid})
+    res.send({status: 'success', message: 'usuario eliminado'})
+
 });
 
 export default router;
