@@ -28,12 +28,10 @@ const productSchema = new Schema({
         required: true
     },
     status: {
-        type: Boolean,
-        required: true
+        type: Boolean
     },
     thumbnails: {
-        type: String,
-        required: true
+        type: String
     },
 })
 

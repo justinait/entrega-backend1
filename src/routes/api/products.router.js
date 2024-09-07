@@ -46,6 +46,9 @@ router.delete('/:pid', async (req, res) => {
     const result = await productModel.deleteOne({_id: pid})
     res.send({status: 'success', message: 'usuario eliminado'})
 
+    const cart = await cartModel.findOne({_id: '66c7c9cd4fd58f55ebcd9c60' })
+  
+    console.log(JSON.stringify(cart, null, 2))
 });
 
 export default router;
