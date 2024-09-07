@@ -1,15 +1,15 @@
 import express from 'express';
-import productRouter from './src/routes/products.router.js';
-import cartRouter from './src/routes/carts.router.js';
-import userRouter from './src/routes/users.router.js';
-import viewsRouter from './src/routes/views.router.js';
+import productRouter from './src/routes/api/products.router.js';
+import cartRouter from './src/routes/api/carts.router.js';
+import userRouter from './src/routes/api/users.router.js';
+import viewsRouter from './src/routes/api/views.router.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io'
 import { chatSocket } from './src/utils/chatSocket.js';
-import ProductsManagerFs from './src/managers/FileSystem/products.manager.js';
 import { connectDB } from './src/managers/config/index.js';
+import { productModel } from './src/managers/models/products.model.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,14 +53,30 @@ const ioMiddleware = (ïo) => (req, res, next) => {
 
 const productSocket = (io) => {
     io.on('connection', async socket => {
-        const {getProducts, createProduct} = new ProductsManagerFs();
-        const products = await getProducts()
-        socket.emit('products', products)
+        try {
+            // Obtener todos los productos desde MongoDB
+            const products = await productModel.find(); // Encuentra todos los productos
+            socket.emit('products', products);
 
-        socket.on('addProduct', async data=> {
-            console.log(data);
-            createProduct(data);
-        })
+            // Escuchar evento 'addProduct' para agregar un producto
+            socket.on('addProduct', async (data) => {
+                try {
+                    console.log('Producto recibido desde el cliente:', data);
+                    
+                    // Crear un nuevo producto en la base de datos
+                    const newProduct = new productModel(data); // Se crea una instancia del modelo con los datos recibidos
+                    await newProduct.save(); // Guardar el producto en MongoDB
+
+                    // Volver a emitir todos los productos actualizados a todos los clientes conectados
+                    const updatedProducts = await productModel.find();
+                    io.emit('products', updatedProducts); // Enviar la lista actualizada de productos
+                } catch (error) {
+                    console.error('Error agregando producto:', error);
+                }
+            });
+        } catch (error) {
+            console.error('Error obteniendo productos desde MongoDB:', error);
+        }
     })
 }
 

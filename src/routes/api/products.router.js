@@ -1,10 +1,7 @@
 import { Router } from 'express';
-import ProductsManagerFs from '../managers/FileSystem/products.manager.js';
-import { productModel } from '../managers/models/products.model.js';
+import { productModel } from '../../managers/models/products.model.js';
 
 const router = Router();
-
-const { getProducts, createProduct, getProduct, updateProduct, deleteProduct } = new ProductsManagerFs();
 
 const products = [];
 
