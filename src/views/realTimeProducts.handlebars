@@ -7,26 +7,26 @@
     <form id="productForm">
         <div>
             <input name="title" type="text" placeholder="Nombre del producto">
-            <div class="validationMessage">Este campo es obligatorio</div>
+            <div class="validationMessage" id="titleError">Este campo es obligatorio</div>
         </div>
         <div>
             <input name="description" type="text" placeholder="Descripción del producto">
-            <div class="validationMessage">Este campo es obligatorio</div>
+            <div class="validationMessage" id="descriptionError">Este campo es obligatorio</div>
         </div>
         <div>
             <input name="price" type="number" placeholder="$ Precio del producto">
-            <div class="validationMessage">Este campo es obligatorio</div>
+            <div class="validationMessage" id="priceError">Este campo es obligatorio</div>
         </div>
         <div>
             <input name="stock" type="number" placeholder="Stock">
-            <div class="validationMessage">Este campo es obligatorio</div>
+            <div class="validationMessage" id="stockError">Este campo es obligatorio</div>
         </div>
         <div>
             <input name="code" type="text" placeholder="Code del producto">
         </div>
         <div>
             <input name="category" type="text" placeholder="Categoría">
-            <div class="validationMessage">Este campo es obligatorio</div>
+            <div class="validationMessage" id="categoryError">Este campo es obligatorio</div>
         </div>
         <button>Enviar</button>
     </form>
@@ -154,13 +154,43 @@
     let form = document.querySelector('#productForm');
     form.addEventListener('submit', evt => {
         evt.preventDefault();
-        const title = form.elements.title.value;
-        const description = form.elements.description.value;
-        const price = form.elements.price.value;
-        const stock = form.elements.stock.value;
-        const category = form.elements.category.value;
-        const code = form.elements.code.value;
 
+        const form = evt.target;
+        const title = form.elements.title.value.trim();
+        const description = form.elements.description.value.trim();
+        const price = form.elements.price.value.trim();
+        const stock = form.elements.stock.value.trim();
+        const category = form.elements.category.value.trim();
+        const code = form.elements.code.value.trim();
+
+        // Validación
+        let hasError = false;
+        const validationMessages = form.querySelectorAll('.validationMessage');
+        validationMessages.forEach(msg => msg.style.display = 'none');
+
+        if (!title) {
+            document.querySelector('[name="title"] + .validationMessage').style.display = 'block';
+            hasError = true;
+        }
+        if (!description) {
+            document.querySelector('[name="description"] + .validationMessage').style.display = 'block';
+            hasError = true;
+        }
+        if (!price) {
+            document.querySelector('[name="price"] + .validationMessage').style.display = 'block';
+            hasError = true;
+        }
+        if (!stock) {
+            document.querySelector('[name="stock"] + .validationMessage').style.display = 'block';
+            hasError = true;
+        }
+        if (!category) {
+            document.querySelector('[name="category"] + .validationMessage').style.display = 'block';
+            hasError = true;
+        }
+
+        if (hasError) return;
+        
         socket.emit('addProduct', {
             title,
             description,
