@@ -7,7 +7,7 @@
     <form id="productForm">
         <div>
             <input name="title" type="text" placeholder="Nombre del producto">
-            <div class="validation__message">Este campo es obligatorio</div>
+            <div class="validationMessage">Este campo es obligatorio</div>
         </div>
         <div>
             <input name="description" type="text" placeholder="Descripción del producto">
@@ -117,8 +117,10 @@
 
         document.querySelectorAll('.add-to-cart-btn').forEach(button => {
             button.addEventListener('click', () => {
-                const productId = button.getAttribute('data-product-id');
-                const cartId = '66e05e8bc3b3e275e5b4ab18';
+                const productId = button.getAttribute('data-product-id');                
+                createCart();
+                let cartId =  localStorage.getItem('cartId');
+                console.log(cartId)
                 addToCart(cartId, productId);
                 console.log('add to cart')
             });
@@ -184,5 +186,32 @@
             renderProducts();
         }
     });
-    
+
+
+    function createCart() {
+        let cartId = localStorage.getItem('cartId');
+        
+        if(!cartId) {
+
+            fetch('/api/carts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ products: [] })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Guardamos el nuevo cartId en el localStorage
+                localStorage.setItem('cartId', data.data._id);
+                console.log('Nuevo carrito creado con ID:', data.data._id);
+            })
+            .catch(error => {
+                console.error('Error creando el carrito:', error);
+            });
+        } else {
+            console.log('Carrito ya existente con ID:', cartId);
+        }
+    }
+
 </script>
