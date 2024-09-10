@@ -5,10 +5,22 @@ const router = Router();
 
 const products = [];
 
-router.get('/', async (req, res) => {
-    
-    const products = await productModel.find()
-    res.send({ status: 'success', payload: products })
+router.get('/', async (req, res, next) => {
+    try {
+        // const products = await productModel.find()
+        const products = await productModel.paginate({category: 'remeras'}, {limit: 4, page: 1})
+        
+        res.send({ status: 'success', payload: products, pagination: {
+            totalPages: result.totalPages,
+            page: Number(result.page),
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevPage: result.prevPage,
+            prevPage: result.prevPage,
+        } })
+    } catch (error) {
+        
+    }
 });
 
 router.post('/', async (req, res) => {
