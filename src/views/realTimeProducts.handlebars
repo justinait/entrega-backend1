@@ -84,9 +84,9 @@
     function sortProducts(order) {
         filteredProducts.sort((a, b) => {
             if (order === 'asc') {
-                return a.title.localeCompare(b.title);
+                return a.price.localeCompare(b.price);
             } else if (order === 'desc') {
-                return b.title.localeCompare(a.title);
+                return b.price.localeCompare(a.price);
             }
             return 0;
         });
@@ -108,16 +108,45 @@
                         <p>Descripción: ${e.description}</p>
                         <p>Precio: $ ${e.price}</p>
                         <p>Stock: ${e.stock}</p>
-                        <button>Agregar al carrito</button>
+                        <button class="add-to-cart-btn" data-product-id="${e._id}">Agregar al carrito</button>
                     </div>
                 </div>
             `
         })
         productListDiv.innerHTML = html
 
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-product-id');
+                const cartId = '66e05e8bc3b3e275e5b4ab18';
+                addToCart(cartId, productId);
+                console.log('add to cart')
+            });
+        });
+
         document.querySelector('#pageNumber').textContent = currentPage;
-
-
+    }
+    function addToCart(cartId, productId) {
+        fetch(`/api/carts/${cartId}/product/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al agregar el producto al carrito');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Producto agregado al carrito:', data);
+            alert('Producto agregado exitosamente al carrito');
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+            alert('Error al agregar producto al carrito');
+        });
     }
 
     let form = document.querySelector('#productForm');
