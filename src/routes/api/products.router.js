@@ -5,7 +5,7 @@ const router = Router();
 
 const products = [];
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     try {
         // const products = await productModel.find()
         const products = await productModel.paginate({category: 'remeras'}, {limit: 4, page: 1})
