@@ -6,37 +6,19 @@ const router = Router();
 const products = [];
 
 router.get('/', async (req, res) => {
-    // try {
-    //     // const products = await productModel.find().lean()
-    //     const products = await productModel.paginate({category: 'remeras'}, {limit: 4, page: 1})
-        
-    //     res.send({ status: 'success', payload: products, pagination: {
-    //         totalPages: result.totalPages,
-    //         page: Number(result.page),
-    //         hasPrevPage: result.hasPrevPage,
-    //         hasNextPage: result.hasNextPage,
-    //         prevPage: result.prevPage,
-    //         prevPage: result.prevPage,
-    //     } })
-    // } catch (error) {
-    //     console.log(error);
-    // }
 
     try {
         const { limit = 10, page = 1, sort, query } = req.query;
     
-        // Filtro de búsqueda basado en 'query', por ejemplo, categoría o disponibilidad
         const filter = query ? { $or: [{ category: query }, { availability: query }] } : {};
     
-        // Ordenamiento por precio ascendente o descendente
         const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {};
     
-        // Uso de paginate para paginar los productos
         const products = await productModel.paginate(filter, {
           limit: parseInt(limit),
           page: parseInt(page),
           sort: sortOption,
-          lean: true // Optimiza la consulta para que sea más rápida
+          lean: true
         });
     
         const { docs, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products;
