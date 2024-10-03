@@ -4,6 +4,7 @@
     "express-handlebars": "^6.0.7",
     "mongodb": "^6.8.0",
     "mongoose": "^8.6.1",
+    "mongoose-paginate-v2": "^1.8.5",
     "socket.io": "^4.7.5"
   },
   "name": "desafio1",
