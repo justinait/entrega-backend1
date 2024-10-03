@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/', async (req, res)=> {
     try {
-        const products = await productModel.find()
+        const products = await productModel.find().lean()
         res.render('home.handlebars', {
             title: 'Home - Tienda',
             products: products
@@ -17,7 +17,7 @@ router.get('/', async (req, res)=> {
 
 router.get('/realtimeproducts', async (req, res)=> {
     try {
-        const products = await productModel.find()
+        const products = await productModel.find().lean()
         res.render('realTimeProducts.handlebars', {
             title: 'Real Time Products',
             products: products

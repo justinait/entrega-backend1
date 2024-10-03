@@ -55,7 +55,7 @@ const productSocket = (io) => {
     io.on('connection', async socket => {
         try {
             // Obtener todos los productos desde MongoDB
-            const products = await productModel.find(); // Encuentra todos los productos
+            const products = await productModel.find().lean(); // Encuentra todos los productos
             socket.emit('products', products);
 
             // Escuchar evento 'addProduct' para agregar un producto
@@ -68,7 +68,7 @@ const productSocket = (io) => {
                     await newProduct.save(); // Guardar el producto en MongoDB
 
                     // Volver a emitir todos los productos actualizados a todos los clientes conectados
-                    const updatedProducts = await productModel.find();
+                    const updatedProducts = await productModel.find().lean();
                     io.emit('products', updatedProducts); // Enviar la lista actualizada de productos
                 } catch (error) {
                     console.error('Error agregando producto:', error);
